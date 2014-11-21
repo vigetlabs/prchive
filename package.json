@@ -1,6 +1,6 @@
 {
   "name": "prchive",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Archive media from pull requests",
   "main": "index.coffee",
   "scripts": {
