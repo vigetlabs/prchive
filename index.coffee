@@ -1,0 +1,10 @@
+require('./scripts/config')
+  .then(require('./scripts/client'))
+  .then(require('./scripts/repo'))
+  .then(require('./scripts/prs'))
+  .then(require('./scripts/parse'))
+  .then(require('./scripts/createdir'))
+  .then(require('./scripts/save'))
+  .then(require('./scripts/document'))
+  .then(require('./scripts/finish'))
+  .catch (error)-> console.log error.stack

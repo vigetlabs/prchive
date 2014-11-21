@@ -1,0 +1,33 @@
+{
+  "name": "prchive",
+  "version": "0.0.1",
+  "description": "Archive media from pull requests",
+  "main": "index.coffee",
+  "scripts": {
+    "test": "#TODO",
+    "prepublish": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vigetlabs/prchive.git"
+  },
+  "keywords": [
+    "git",
+    "gifs",
+    "images",
+    "pull requests"
+  ],
+  "author": "Doug Avery <doug.avery@viget.com> http://viget.com/about/team/davery",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vigetlabs/prchive/issues"
+  },
+  "homepage": "https://github.com/vigetlabs/prchive",
+  "dependencies": {
+    "moment": "^2.8.4",
+    "octonode": "~0.6.2",
+    "prompt": "~0.2.12",
+    "rsvp": "~3.0.6",
+    "underscore": "~1.6.0"
+  }
+}
