@@ -4,8 +4,10 @@
   "description": "Archive media from pull requests",
   "main": "index.coffee",
   "scripts": {
-    "test": "#TODO",
-    "prepublish": "gulp build"
+    "prepublish": "coffee --output lib --compile src"
+  },
+  "bin": {
+    "prchive": "bin/prchive.bin.js"
   },
   "repository": {
     "type": "git",

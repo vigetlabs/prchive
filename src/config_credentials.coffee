@@ -9,7 +9,7 @@ module.exports = [
     description: 'Password'
   }
   {
-    name: 'repo url'
+    name: 'repo'
     description: 'Repo URL: like vigetlabs/prchive'
   }
 ]
