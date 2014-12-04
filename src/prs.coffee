@@ -18,6 +18,6 @@ module.exports = (data)->
 
       maxNumLength = _(data.prs).max((pr)-> pr.number.toString().length).number.toString().length
 
-      _(data.prs).each (pr) -> pr.number = pad(maxNumLength, pr.number, 0)
+      _(data.prs).each (pr) -> pr.number = pad(maxNumLength, pr.number.toString(), 0)
 
       resolve(data)
