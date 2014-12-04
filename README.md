@@ -5,3 +5,11 @@ Run `npm install prchive -g`, then `prchive` to start. Point PRchive at a projec
 ## Development
 
 Run `npm run prepublish && node lib/test.js` to test the script while in development. Create a file called `.config.json` in the root to save on typing time, and fill it with your credentials like this:
+
+```
+{
+  "username" : "averyvery",
+  "password" : "password",
+  "repo"     : "vigetlabs/prchive"
+}
+```

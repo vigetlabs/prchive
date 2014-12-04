@@ -4,40 +4,52 @@ httpSync  = require('http-sync')
 url       = require('url')
 pluralize = require('pluralize')
 
+# http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149
+urlRegexp      = /(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?\b/g
+filenameRegexp = /\/[^\/]*\.[a-z]*$/
+cloupAppRegexp = /^http:\/\/cl\.ly/
+
 module.exports = (data)->
   new RSVP.Promise (resolve)->
     _(data.prs).each (pr) ->
-      pr.urls = []
+      pr.files = []
 
-      # http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149
-      matches = pr.body.match /(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?\b/g
+      matches = pr.body.match urlRegexp
 
       matches = _(matches).map (mediaUrl) =>
-        clyMatch = mediaUrl.match /^http:\/\/cl\.ly/
-        if clyMatch?
-          # remove file from end of cl.ly link
-          mediaUrl = mediaUrl.replace /[a-zA-Z]\.[a-z]*$/, ''
+        clyMatch = mediaUrl.match cloupAppRegexp
+
+        if clyMatch
+          # remove filename from end of cl.ly link
+          mediaUrl = mediaUrl.replace filenameRegexp , ''
 
           req = httpSync.request
             protocol : url.parse(mediaUrl).protocol,
             host     : url.parse(mediaUrl).host,
             path     : url.parse(mediaUrl).pathname,
             headers  :
-              Accept: 'application/json',
-          return JSON.parse(req.end().body.toString()).remote_url
+              Accept: 'application/json'
 
-        mediaUrl
+          mediaUrl = JSON.parse(req.end().body.toString()).remote_url
+
+          url:  mediaUrl
+          name: pr.number + '__' + mediaUrl.match(filenameRegexp)[0].slice 1
+
+        else if mediaUrl.match(filenameRegexp)?
+          url:  mediaUrl
+          name: pr.number + '__' + mediaUrl.match(filenameRegexp)[0].slice 1
 
       if matches?
-        pr.urls = pr.urls.concat matches
+        matches = _(matches).without(undefined)
+        pr.files = pr.files.concat matches
 
-    urlCount = _(data.prs).reduce (value, pr) ->
-      value + pr.urls.length
+    fileCount = _(data.prs).reduce (value, pr) ->
+      value + pr.files.length
     , 0
 
-    console.log "\n  #{urlCount} #{pluralize('URL', urlCount)} found:".green
+    console.log "\n  #{fileCount} #{pluralize('URL', fileCount)} found:".green
 
     _(data.prs).each (pr) ->
-      _(pr.urls).each (url) -> console.log "    #{url}".grey
+      _(pr.files).each (file) -> console.log "    #{file.url}".grey
 
     resolve(data)

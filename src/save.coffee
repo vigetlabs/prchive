@@ -9,17 +9,16 @@ module.exports = (data)->
   new RSVP.Promise (resolve)->
     console.log "\n  Saving files:".green
     _(data.prs).each (pr)->
-      _(pr.urls).each (mediaUrl)->
-        filename = mediaUrl.substring mediaUrl.lastIndexOf('/') + 1
-        path   = "#{data.dirname}/#{filename}"
+      _(pr.files).each (file)->
+        path   = "#{data.dirname}/#{file.name}"
 
         req = httpSync.request
-          protocol : url.parse(mediaUrl).protocol,
-          host     : url.parse(mediaUrl).host,
-          path     : url.parse(mediaUrl).pathname,
+          protocol : url.parse(file.url).protocol,
+          host     : url.parse(file.url).host,
+          path     : url.parse(file.url).pathname,
 
         fs.writeFileSync(path, req.end().body)
 
-        console.log "    #{filename} (#{filesize fs.statSync('./' + path).size})".grey
+        console.log "    #{file.name} (#{filesize fs.statSync('./' + path).size})".grey
 
     resolve(data)

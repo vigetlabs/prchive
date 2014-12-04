@@ -4,7 +4,7 @@ _     = require('underscore')
 module.exports = (data)->
   new RSVP.Promise (resolve)->
     count = _(data.prs).reduce (memo, pr) ->
-      memo + pr.urls.length
+      memo + pr.files.length
     , 0
 
     console.log "\n  Done! #{count} items saved in:".green
