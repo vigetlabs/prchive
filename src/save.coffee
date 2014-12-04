@@ -1,21 +1,25 @@
-RSVP  = require('rsvp')
-_     = require('underscore')
-http  = require('http')
-https = require('https')
-fs    = require('fs')
+RSVP     = require('rsvp')
+_        = require('underscore')
+httpSync = require('http-sync')
+fs       = require('fs')
+url      = require('url')
+filesize = require('filesize')
 
 module.exports = (data)->
   new RSVP.Promise (resolve)->
-    console.log '...saving'
+    console.log "\n  Saving files:".green
     _(data.prs).each (pr)->
-      pr.filenames = []
-      _(pr.urls).each (url)->
-        filename = url.substring url.lastIndexOf('/') + 1
-        pr.filenames.push filename
-        file     = fs.createWriteStream "#{data.dirname}/#{filename}"
-        protocol = url.match(/^http(s|)/)[0]
-        library  = if protocol is 'http' then http else https
+      _(pr.urls).each (mediaUrl)->
+        filename = mediaUrl.substring mediaUrl.lastIndexOf('/') + 1
+        path   = "#{data.dirname}/#{filename}"
 
-        request = library.get url, (response)-> response.pipe(file);
+        req = httpSync.request
+          protocol : url.parse(mediaUrl).protocol,
+          host     : url.parse(mediaUrl).host,
+          path     : url.parse(mediaUrl).pathname,
+
+        fs.writeFileSync(path, req.end().body)
+
+        console.log "    #{filename} (#{filesize fs.statSync('./' + path).size})".grey
 
     resolve(data)

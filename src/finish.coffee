@@ -7,6 +7,7 @@ module.exports = (data)->
       memo + pr.urls.length
     , 0
 
-    console.log "Done! #{count} items saved in #{data.dirname}"
+    console.log "\n  Done! #{count} items saved in:".green
+    console.log "  #{__dirname}/#{data.dirname}\n".green.bold
 
     resolve(data)

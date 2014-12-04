@@ -26,9 +26,12 @@
   },
   "homepage": "https://github.com/vigetlabs/prchive",
   "dependencies": {
-    "httpsync": "0.0.8",
+    "colors": "^1.0.3",
+    "filesize": "^2.0.4",
+    "http-sync": "0.0.5",
     "moment": "^2.8.4",
     "octonode": "~0.6.2",
+    "pluralize": "^1.1.0",
     "prompt": "~0.2.12",
     "rsvp": "~3.0.6",
     "underscore": "~1.6.0"
