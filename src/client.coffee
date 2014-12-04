@@ -4,7 +4,7 @@ github = require('octonode')
 module.exports = (data)->
   new RSVP.Promise (resolve)->
     creds = data.credentials
-    console.log '  Connecting client:'.green
+    console.log '\n  Connecting client:'.green
     console.log "    username:     #{creds.username}".grey
     console.log "    password:     #{creds.password.replace(/./g, '*')}".grey
     console.log "    repo:         #{creds.repo}".grey

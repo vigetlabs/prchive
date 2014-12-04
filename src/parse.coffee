@@ -13,8 +13,8 @@ module.exports = (data)->
       matches = pr.body.match /(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?\b/g
 
       matches = _(matches).map (mediaUrl) =>
-        match = mediaUrl.match /^http:\/\/cl\.ly/
-        if match?
+        clyMatch = mediaUrl.match /^http:\/\/cl\.ly/
+        if clyMatch?
           # remove file from end of cl.ly link
           mediaUrl = mediaUrl.replace /[a-zA-Z]\.[a-z]*$/, ''
 
@@ -24,9 +24,9 @@ module.exports = (data)->
             path     : url.parse(mediaUrl).pathname,
             headers  :
               Accept: 'application/json',
-          JSON.parse(req.end().body.toString()).remote_url
-        else
-          mediaUrl
+          return JSON.parse(req.end().body.toString()).remote_url
+
+        mediaUrl
 
       if matches?
         pr.urls = pr.urls.concat matches
