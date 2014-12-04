@@ -5,7 +5,8 @@ _      = require('underscore')
 
 module.exports = new RSVP.Promise (resolve)->
   data = {}
-  if _(process.argv).contains('--config')
+
+  if (fs.existsSync('.config.json'))
     data.credentials = JSON.parse(fs.readFileSync('.config.json'))
     resolve(data)
   else

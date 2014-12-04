@@ -1,5 +1,6 @@
-RSVP = require('rsvp')
-_    = require('underscore')
+RSVP     = require('rsvp')
+_        = require('underscore')
+httpsync = require('httpsync')
 
 module.exports = (data)->
   new RSVP.Promise (resolve)->
@@ -7,9 +8,25 @@ module.exports = (data)->
 
     _(data.prs).each (pr) ->
       pr.urls = []
-      matches = pr.body.match /\(http.*?\.[a-zA-Z]+\)/i
+
+      # http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149
+      matches = pr.body.match /(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?\b/g
+
+      matches = _(matches).map (url) =>
+        match = url.match /^http:\/\/cl\.ly/
+        if match?
+          url = url.replace /[a-zA-Z]\.[a-z]*$/, ''
+          console.log url
+          req = httpsync.request
+            url     : url,
+            method  : 'GET',
+            headers :
+              Accept: 'application/json',
+          JSON.parse(req.end().data.toString()).remote_url
+        else
+          url
+
       if matches?
-        urls = _(matches).map (match) -> match.slice(1, -1)
-        pr.urls = pr.urls.concat urls
+        pr.urls = pr.urls.concat matches
 
     resolve(data)
