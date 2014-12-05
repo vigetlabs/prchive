@@ -3,11 +3,12 @@ _         = require('underscore')
 httpSync  = require('http-sync')
 url       = require('url')
 pluralize = require('pluralize')
+$         = require('cheerio')
 
 # http://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149
-urlRegexp      = /(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?\b/g
-filenameRegexp = /\/[^\/]*\.[a-z]*$/
-cloupAppRegexp = /^http:\/\/cl\.ly/
+urlRegexp        = /(https?:\/\/)([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?\b/g
+filenameRegexp   = /\/[^\/]*\.[a-z]*$/
+cloupAppRegexp   = /^http:\/\/cl\.ly/
 
 module.exports = (data)->
   new RSVP.Promise (resolve)->
@@ -17,9 +18,7 @@ module.exports = (data)->
       matches = pr.body.match urlRegexp
 
       matches = _(matches).map (mediaUrl) =>
-        clyMatch = mediaUrl.match cloupAppRegexp
-
-        if clyMatch
+        if mediaUrl.match cloupAppRegexp
           # remove filename from end of cl.ly link
           mediaUrl = mediaUrl.replace filenameRegexp , ''
 
