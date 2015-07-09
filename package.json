@@ -1,6 +1,6 @@
 {
   "name": "prchive",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Archive media from GitHub pull requests",
   "main": "index.coffee",
   "scripts": {
@@ -29,7 +29,7 @@
     "cheerio": "^0.18.0",
     "colors": "^1.0.3",
     "filesize": "^2.0.4",
-    "http-sync": "0.0.5",
+    "http-sync": "0.1.2",
     "moment": "^2.8.4",
     "octonode": "~0.6.2",
     "pad": "0.0.5",
