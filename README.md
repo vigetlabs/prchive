@@ -1,6 +1,4 @@
-# PRchive
-
-
+# [code.viget.com](http://code.viget.com/)/PRchive
 
 ## Grab all the media from your PRs
 
@@ -21,7 +19,3 @@ Run `npm run prepublish && node lib/test.js` to test the script while in develop
   "repo"     : "vigetlabs/prchive"
 }
 ```
-
-<hr>
-
-See more [Viget(https://viget.com/) projects at [code.viget.com.](http://code.viget.com/)
