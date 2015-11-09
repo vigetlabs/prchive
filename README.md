@@ -1,4 +1,4 @@
-# [code.viget.com](http://code.viget.com/)/PRchive
+# [code.viget.com](http://code.viget.com/) / PRchive
 
 ## Grab all the media from your PRs
 
